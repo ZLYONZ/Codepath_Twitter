@@ -24,6 +24,14 @@ class HomeTableViewController: UITableViewController {
         // Refresh tweets
         myRefreshControl.addTarget(self, action:#selector(loadTweet), for: .valueChanged)
         tableView.refreshControl = myRefreshControl
+        
+        // Set the row height
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 150
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         loadTweet()
     }
 
@@ -67,7 +75,7 @@ class HomeTableViewController: UITableViewController {
             self.tableView.reloadData()
             
         }, failure: { Error in
-            print("Could not retreive tweets!")
+            print("Could not retreive tweets! \(Error)")
             print(Error.localizedDescription)
         })
     }
@@ -77,7 +85,6 @@ class HomeTableViewController: UITableViewController {
             loadMoreTweet()
         }
     }
-    
     
     // Log out action
     @IBAction func logoutButton(_ sender: Any) {
@@ -97,15 +104,59 @@ class HomeTableViewController: UITableViewController {
         
         // Get tweet content
         cell.tweetContentLabel.text = tweetArray[indexPath.row]["text"] as? String
-
+        
+        // Get tweet info (screen name + post time)
+        let screenName = "@" + (user["screen_name"] as! String)
+        let postTime = tweetArray[indexPath.row]["created_at"] as! String
+        let dateArray = postTime.split(separator: " ")
+        let postDate = dateArray[1] + " " + dateArray[2]
+        
+        cell.timeLabel.text = String(screenName +  " · " + postDate)
+        
         // Get user image
         let imageUrl = URL(string: (user["profile_image_url_https"] as? String)!)
         let data = try? Data(contentsOf: imageUrl!)
 
         if let imageData = data {
             cell.profileImage.image = UIImage(data: imageData)
-        }
+            
+        // Get media image
+        let entities = tweetArray[indexPath.row]["entities"] as! NSDictionary
+        if let media = entities["media"] as? [NSDictionary] {
+            let mediaUrl = URL(string: (media[0]["media_url_https"] as? String)!)
+            let mediaData = try? Data(contentsOf: mediaUrl!)
 
+            if let mediaImageData = mediaData {
+                cell.mediaImage.image = UIImage(data: mediaImageData)
+            } else {
+                cell.mediaImage.image = nil
+            }
+        } else {
+            cell.mediaImage.image = nil
+        }
+            
+//        let entities = tweetArray[indexPath.row]["entities"] as! NSDictionary
+//            if let media = entities["media"] as? [NSDictionary] {
+//                let mediaURL = URL(string: (media[0]["media_url_https"] as? String)!)
+//                let mediaData = try? Data(contentsOf: mediaURL!)
+//                    if let mediaImageData = mediaData {
+//                        cell.mediaImage.image = UIImage(data: mediaImageData)
+//                    } else {
+//                        cell.mediaImage.image = nil
+//                    }
+//            } else {
+//                    cell.mediaImage.image = nil
+//            }
+//            return cell
+        }
+        
+        // Set favortite tweet
+        cell.setFavorite(tweetArray[indexPath.row]["favorited"] as! Bool)
+        cell.tweetId = tweetArray[indexPath.row]["id"] as! Int
+        
+        // Set retweet
+        cell.setRetweeted(tweetArray[indexPath.row]["retweeted"] as! Bool)
+        
         return cell
     }
     
