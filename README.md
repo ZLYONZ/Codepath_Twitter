@@ -24,7 +24,7 @@ The following **bonus** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src="http://g.recordit.co/R2tEXKU0I5.gif" width=250><br>
+<img src="http://g.recordit.co/iwz2ASPaaN.gif" width=250><br>
 
 # Twitter - Part I
 

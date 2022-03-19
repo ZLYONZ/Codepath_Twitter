@@ -1,14 +1,23 @@
 //
-//  HomeTableViewController.swift
+//  ProfileViewController.swift
 //  Twitter
 //
-//  Created by LYON on 3/8/22.
+//  Created by LYON on 3/17/22.
 //  Copyright © 2022 Dan. All rights reserved.
 //
 
 import UIKit
 
-class HomeTableViewController: UITableViewController {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var screenNameLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var tweetsLabel: UILabel!
+    @IBOutlet weak var followingLabel: UILabel!
+    @IBOutlet weak var followersLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     
     var tweetArray = [NSDictionary]()
     var numberOfTweet: Int!
@@ -18,6 +27,11 @@ class HomeTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loadUserInfo()
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         // Refresh tweets
         myRefreshControl.addTarget(self, action:#selector(loadTweet), for: .valueChanged)
         self.tableView.refreshControl = myRefreshControl
@@ -33,12 +47,35 @@ class HomeTableViewController: UITableViewController {
         // Load tweets
         self.loadTweet()
     }
+    
+    // Load User info
+    func loadUserInfo() {
+        TwitterAPICaller.client?.userInfo(
+            success: { data in
+                let imageUrl = URL(string: data["profile_image_url_https"] as! String)
+                let pic = try? Data(contentsOf: imageUrl!)
+                if let profilePic = pic {
+                    self.profileImage.image = UIImage(data: profilePic)
+                }
 
+                self.nameLabel.text = data["name"] as? String
+                self.screenNameLabel.text = "@" + (data["screen_name"] as! String)
+                self.descriptionLabel.text = data["description"] as? String
+                self.followingLabel.text = String(data["friends_count"] as! Int) + " Following"
+                self.followersLabel.text = String(data["followers_count"] as! Int) + " Followers"
+                self.tweetsLabel.text = String(data["statuses_count"] as! Int) + " Tweets"
+                
+            }, failure: { error in
+                print(error)
+            }
+        )
+    }
+    
     // Load tweets
     @objc func loadTweet() {
         
         numberOfTweet = 20
-        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        let myUrl = "https://api.twitter.com/1.1/statuses/user_timeline.json"
         let myParams = ["count": numberOfTweet]
         
         TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams as [String : Any], success: { (tweets: [NSDictionary]) in
@@ -61,7 +98,7 @@ class HomeTableViewController: UITableViewController {
     func loadMoreTweet() {
         
         numberOfTweet = numberOfTweet + 20
-        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        let myUrl = "https://api.twitter.com/1.1/statuses/user_timeline.json"
         let myParams = ["count": numberOfTweet]
         
         TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams as [String : Any], success: { (tweets: [NSDictionary]) in
@@ -79,7 +116,7 @@ class HomeTableViewController: UITableViewController {
         })
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == tweetArray.count {
             loadMoreTweet()
         }
@@ -93,7 +130,7 @@ class HomeTableViewController: UITableViewController {
         
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath) as! TweetCell
         
@@ -119,34 +156,20 @@ class HomeTableViewController: UITableViewController {
         if let imageData = data {
             cell.profileImage.image = UIImage(data: imageData)
             
-        // Get media image
-        let entities = tweetArray[indexPath.row]["entities"] as! NSDictionary
-        if let media = entities["media"] as? [NSDictionary] {
-            let mediaUrl = URL(string: (media[0]["media_url_https"] as? String)!)
-            let mediaData = try? Data(contentsOf: mediaUrl!)
+            // Get media image
+            let entities = tweetArray[indexPath.row]["entities"] as! NSDictionary
+            if let media = entities["media"] as? [NSDictionary] {
+                let mediaUrl = URL(string: (media[0]["media_url_https"] as? String)!)
+                let mediaData = try? Data(contentsOf: mediaUrl!)
 
-            if let mediaImageData = mediaData {
-                cell.mediaImage.image = UIImage(data: mediaImageData)
+                if let mediaImageData = mediaData {
+                    cell.mediaImage.image = UIImage(data: mediaImageData)
+                } else {
+                    cell.mediaImage.image = nil
+                }
             } else {
                 cell.mediaImage.image = nil
             }
-        } else {
-            cell.mediaImage.image = nil
-        }
-            
-//        let entities = tweetArray[indexPath.row]["entities"] as! NSDictionary
-//            if let media = entities["media"] as? [NSDictionary] {
-//                let mediaURL = URL(string: (media[0]["media_url_https"] as? String)!)
-//                let mediaData = try? Data(contentsOf: mediaURL!)
-//                    if let mediaImageData = mediaData {
-//                        cell.mediaImage.image = UIImage(data: mediaImageData)
-//                    } else {
-//                        cell.mediaImage.image = nil
-//                    }
-//            } else {
-//                    cell.mediaImage.image = nil
-//            }
-//            return cell
         }
         
         // Set favortite tweet
@@ -161,60 +184,15 @@ class HomeTableViewController: UITableViewController {
     
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return tweetArray.count
     }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation
