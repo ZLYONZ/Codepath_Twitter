@@ -52,7 +52,7 @@
             <objects>
                 <tableViewController id="TAe-Ef-tPX" customClass="HomeTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="tcM-AW-wEa">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -198,9 +198,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0/280" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HSh-Uc-fwi" userLabel="characterCount">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/280" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HSh-Uc-fwi" userLabel="characterCount">
                                 <rect key="frame" x="311" y="163" width="60" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -210,8 +209,12 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="E3N-j8-q2B" firstAttribute="leading" secondItem="Jrf-WD-dyE" secondAttribute="leading" id="Rfh-Av-osA"/>
+                            <constraint firstItem="HSh-Uc-fwi" firstAttribute="top" secondItem="Jrf-WD-dyE" secondAttribute="top" constant="107" id="Rhl-Rk-UU2"/>
+                            <constraint firstItem="HSh-Uc-fwi" firstAttribute="leading" secondItem="Jrf-WD-dyE" secondAttribute="leading" constant="311" id="UtM-hU-wdk"/>
+                            <constraint firstItem="Jrf-WD-dyE" firstAttribute="bottom" secondItem="HSh-Uc-fwi" secondAttribute="bottom" constant="610" id="ZPi-ab-Xbh"/>
                             <constraint firstItem="E3N-j8-q2B" firstAttribute="top" secondItem="Jrf-WD-dyE" secondAttribute="top" id="nEd-yA-g83"/>
                             <constraint firstItem="E3N-j8-q2B" firstAttribute="centerX" secondItem="7hn-tL-Vna" secondAttribute="centerX" id="pUU-gS-xbV"/>
+                            <constraint firstItem="Jrf-WD-dyE" firstAttribute="trailing" secondItem="HSh-Uc-fwi" secondAttribute="trailing" constant="19" id="wrN-8O-mNq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="NKe-r6-7T8">
@@ -240,14 +243,13 @@
         <!--Profile View Controller-->
         <scene sceneID="MBA-hI-YCK">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PQ5-nj-1YA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="URV-Np-mCi" customClass="ProfileViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="u5Q-mq-lJx">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="XU8-kg-rwE">
-                                <rect key="frame" x="0.0" y="301" width="390" height="489"/>
+                                <rect key="frame" x="0.0" y="301" width="390" height="543"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -353,7 +355,7 @@
                                 </prototypes>
                             </tableView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6MY-07-RkY">
-                                <rect key="frame" x="145" y="76" width="100" height="100"/>
+                                <rect key="frame" x="145" y="108" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="1Pk-8r-Mv1"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="PZ9-q3-0HU"/>
@@ -389,7 +391,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="a4D-9S-Pch">
-                                <rect key="frame" x="0.0" y="184" width="390" height="64.666666666666686"/>
+                                <rect key="frame" x="0.0" y="216" width="390" height="64.666666666666686"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E4w-As-PaK">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="22"/>
@@ -407,7 +409,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2y-6q-PJU">
-                                        <rect key="frame" x="0.0" y="44.333333333333343" width="390" height="20.333333333333329"/>
+                                        <rect key="frame" x="0.0" y="44.333333333333314" width="390" height="20.333333333333329"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -456,13 +458,14 @@
                         <outlet property="tweetsLabel" destination="T9y-lq-QJf" id="PN5-AM-047"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PQ5-nj-1YA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1087.6923076923076" y="814.69194312796208"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="kOz-c2-QDu">
             <objects>
-                <tabBarController id="A51-fz-6uh" sceneMemberID="viewController">
+                <tabBarController modalPresentationStyle="fullScreen" id="A51-fz-6uh" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" id="Wqc-0m-WWT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -483,13 +486,13 @@
         <!--Home-->
         <scene sceneID="zR5-MF-ESt">
             <objects>
-                <navigationController modalPresentationStyle="fullScreen" id="ZBc-d0-WHK" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="ZBc-d0-WHK" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="home-icon" id="DfX-ml-VLB">
                         <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="2mu-CF-6ch"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="OyV-lj-SGX">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.34091154470000001" green="0.80375025550000001" blue="0.96611279250000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -499,7 +502,6 @@
                         </textAttributes>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hEp-n2-lNb">
-                        <rect key="frame" x="0.0" y="-54" width="0.0" height="0.0"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -537,13 +539,13 @@
         <!--Profile-->
         <scene sceneID="Wvn-8e-x54">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jdh-wW-Caj" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="Jdh-wW-Caj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="profile-Icon" id="vQn-28-54t">
                         <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="qQj-Ew-nQc">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.34091154470000001" green="0.80375025550000001" blue="0.96611279250000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <color key="barTintColor" red="0.34091154470000001" green="0.80375025550000001" blue="0.96611279250000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -559,7 +561,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ExS-bL-YCC"/>
+        <segue reference="g3u-9o-TKa"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="favor-icon" width="30" height="30"/>
