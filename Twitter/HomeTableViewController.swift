@@ -119,34 +119,20 @@ class HomeTableViewController: UITableViewController {
         if let imageData = data {
             cell.profileImage.image = UIImage(data: imageData)
             
-        // Get media image
-        let entities = tweetArray[indexPath.row]["entities"] as! NSDictionary
-        if let media = entities["media"] as? [NSDictionary] {
-            let mediaUrl = URL(string: (media[0]["media_url_https"] as? String)!)
-            let mediaData = try? Data(contentsOf: mediaUrl!)
+            // Get media image
+            let entities = tweetArray[indexPath.row]["entities"] as! NSDictionary
+            if let media = entities["media"] as? [NSDictionary] {
+                let mediaUrl = URL(string: (media[0]["media_url_https"] as? String)!)
+                let mediaData = try? Data(contentsOf: mediaUrl!)
 
-            if let mediaImageData = mediaData {
-                cell.mediaImage.image = UIImage(data: mediaImageData)
+                if let mediaImageData = mediaData {
+                    cell.mediaImage.image = UIImage(data: mediaImageData)
+                } else {
+                    cell.mediaImage.image = nil
+                }
             } else {
-                cell.mediaImage.image = nil
-            }
-        } else {
             cell.mediaImage.image = nil
-        }
-            
-//        let entities = tweetArray[indexPath.row]["entities"] as! NSDictionary
-//            if let media = entities["media"] as? [NSDictionary] {
-//                let mediaURL = URL(string: (media[0]["media_url_https"] as? String)!)
-//                let mediaData = try? Data(contentsOf: mediaURL!)
-//                    if let mediaImageData = mediaData {
-//                        cell.mediaImage.image = UIImage(data: mediaImageData)
-//                    } else {
-//                        cell.mediaImage.image = nil
-//                    }
-//            } else {
-//                    cell.mediaImage.image = nil
-//            }
-//            return cell
+            }
         }
         
         // Set favortite tweet
@@ -170,16 +156,6 @@ class HomeTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return tweetArray.count
     }
-
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
 
     /*
     // Override to support conditional editing of the table view.
